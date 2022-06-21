@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 
 @Data
 @Builder
@@ -14,10 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Address {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
 
+    @Column(nullable = false)
     private String number;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<SpecificAddress> cep;
 
     private String complement;
