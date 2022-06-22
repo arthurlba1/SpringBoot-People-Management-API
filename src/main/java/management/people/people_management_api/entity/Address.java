@@ -1,15 +1,15 @@
 package management.people.people_management_api.entity;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import management.people.people_management_api.enums.State;
+
 import javax.persistence.*;
 
-
+@Entity
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,14 +17,16 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long addressId;
+    @Column(unique = true)
+    private String cep;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private State state;
 
     @Column(nullable = false)
-    private String number;
+    private String city;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private List<SpecificAddress> cep;
-
-    private String complement;
+    @Column(nullable = false)
+    private String street;
 }

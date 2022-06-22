@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import management.people.people_management_api.enums.State;
-
 import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
 @Data
@@ -17,16 +17,14 @@ import javax.persistence.*;
 public class SpecificAddress {
 
     @Id
-    @Column(unique = true)
-    private String cep;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private State state;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long addressId;
 
     @Column(nullable = false)
-    private String city;
+    private String number;
 
-    @Column(nullable = false)
-    private String street;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private Address cep;
+
+    private String complement;
 }
